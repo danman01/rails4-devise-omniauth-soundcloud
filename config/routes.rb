@@ -1,12 +1,14 @@
 Musictown::Application.routes.draw do
-  get "root/index"
-  get "root/about"
+
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   root 'root#index'
+  get '/home' => 'root#home'
+  get '/about' => 'root#about'
+  get '/profile' => 'root#profile'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

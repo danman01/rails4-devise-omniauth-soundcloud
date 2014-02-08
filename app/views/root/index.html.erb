@@ -1,2 +1,7 @@
 <h1>Welcome to Musictown!</h1>
 <p>Find me in app/views/root/index.html.erb</p>
+<h2>All users</h2>
+<% @users.each do |user|%>
+  <%= user.email %>
+<% end %>
+

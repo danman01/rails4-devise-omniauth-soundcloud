@@ -1,6 +1,24 @@
 class DeviseCreateUsers < ActiveRecord::Migration
   def change
     create_table(:users) do |t|
+
+      t.string :zip
+      t.string :first_name, :default => ""
+      t.string :last_name, :default => ""
+      t.string :username
+      t.integer :kind, :default => 0
+      t.string :slug
+      t.integer :gender
+      t.string :location
+      t.string :country
+      t.integer :age
+      t.date :birthday
+      t.decimal :lat, {:precision=>10, :scale=>6}
+      t.decimal :lng, {:precision=>10, :scale=>6}
+      
+
+      # fields added by Devise
+
       ## Database authenticatable
       t.string :email,              :null => false, :default => ""
       t.string :encrypted_password, :null => false, :default => ""
@@ -36,6 +54,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
     add_index :users, :email,                :unique => true
     add_index :users, :reset_password_token, :unique => true
+    add_index :users, :zip
     # add_index :users, :confirmation_token,   :unique => true
     # add_index :users, :unlock_token,         :unique => true
   end

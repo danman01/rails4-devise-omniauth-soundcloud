@@ -228,8 +228,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
-  config.omniauth :soundcloud, "8fce94be093f7eda5f9f7eedc648e576", "5c6ef0427e494a9f1c8c617fbeca4b4b"
-
+  config.omniauth :soundcloud, ENV["SOUNDCLOUD_API_KEY"], ENV["SOUNDCLOUD_CONSUMER_SECRET"]
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

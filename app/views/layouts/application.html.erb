@@ -13,8 +13,6 @@
   
 </head>
 <body>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
   <header>
     <div>
       <% if user_signed_in? %>
@@ -35,6 +33,9 @@
       <% end %>
     </div>
   </header>
+  <% flash.each do |name, msg| %>
+    <%= content_tag :div, msg, id: "flash_#{name}" %>
+  <% end %>
 
 <%= yield %>
 

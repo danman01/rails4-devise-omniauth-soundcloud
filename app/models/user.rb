@@ -7,16 +7,25 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+
+  # create virtual attributes
   attr_accessor :login
 
+  # validate the user object. Calling user.valid? and then user.errors will display validation errors
   validates :username,
   :uniqueness => {
     :case_sensitive => false
   }
 
-  # nice urls
+  # perform this action after the user is created
+  after_create :assign_role
+
+  # nice urls (turns /something/55 into /something/name-of-record)
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :username, use: :slugged
+
+  # set up roles for this class. Use like user.has_role?("admin"), or add a role with user.add_role!("admin")
+  easy_roles :roles
 
   # Called from the omniauth callback controller
   #
@@ -45,6 +54,9 @@ class User < ActiveRecord::Base
     end    
   end
 
+
+  # Over riding devise method found in devise/lib/devise/models/database_authenticatable.rb
+  # Allows omniauth account finding by virtual attribute, login, which is either username or email
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
@@ -54,7 +66,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  # If user is not updating their password, do not require their password
+  # If user authenticates without a password, do not require their password to udpate attributes
   def update_with_password(params, *options)
     if encrypted_password.blank?
       update_attributes(params, *options)
@@ -65,7 +77,6 @@ class User < ActiveRecord::Base
 
   # Require a password unless user has associated Identity
   def password_required?
-    debugger
     super && identities.empty? # doesn't have any associated identities
   end
 
@@ -81,5 +92,12 @@ class User < ActiveRecord::Base
     user.name = auth.info.name
     user
   end
+
+  private
+
+    # Assign the user role to the new user
+    def assign_role
+      self.add_role!("user")
+    end
 
 end

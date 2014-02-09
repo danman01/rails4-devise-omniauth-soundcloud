@@ -9,20 +9,57 @@
     <%= f.label :username %> <br />
     <%= f.text_field :username %>
   </div>
+
+  <div>
+    <% if f.object.avatar_url %>
+      <%= image_tag(f.object.avatar_url)%>
+    <% end %>
+    <%= f.label :avatar_url %><br />
+    <%= f.text_field :avatar_url %>
+  </div>
+
+  <div>
+    <%= f.label :age %><br />
+    <%= f.number_field :age %>
+  </div>
+
+  <div>
+    <%= f.label :birthday %><br />
+    <%= f.date_field :birthday %>
+  </div>
+
   
+  <div>
+    <%= f.label :zip %><br />
+    <%= f.text_field :zip %>
+  </div>
+  
+  <div>
+    <%= f.label :location %><br />
+    <%= f.text_field :location %>
+  </div>
+
+  <div>
+    <%= f.label :country %><br />
+    <%= f.text_field :country %>
+  </div>
+
+
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
-
+  
   <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
   <%= f.password_field :password, :autocomplete => "off" %></div>
 
   <div><%= f.label :password_confirmation %><br />
   <%= f.password_field :password_confirmation %></div>
 
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password %></div>
+  <% if f.object.encrypted_password.present? %>
+    <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <%= f.password_field :current_password %></div>
+  <% end %>
 
   <div><%= f.submit "Update" %></div>
 <% end %>

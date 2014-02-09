@@ -14,13 +14,6 @@
 </head>
 <body>
   <header>
-    <div>
-      <% if user_signed_in? %>
-        <span><%= link_to "Sign out", destroy_user_session_path, method: :delete %></span>
-      <% else %>
-        <span><%= link_to "Sign in", user_session_path %></span>
-      <% end %>
-    </div>
     <div id="user_nav">
       <% if user_signed_in? %>
         Logged in as <strong><%= current_user.email %></strong>.

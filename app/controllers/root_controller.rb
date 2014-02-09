@@ -6,4 +6,10 @@ class RootController < ApplicationController
 
   def about
   end
+
+  def home
+  end
+
+  def profile
+  end
 end

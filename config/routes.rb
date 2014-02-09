@@ -1,15 +1,20 @@
 Musictown::Application.routes.draw do
+  # mounting a railse engine, which is essentially a separate rails app:
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
-  get "root/index"
-  get "root/about"
-
+  # devise routes for user authentication, session and registration management
   devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}, controllers: {omniauth_callbacks: "omniauth_callbacks"}
   
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
+  # MusicTown first page seen is the following:
   root 'root#index'
+
+  # root named routes:
+  get '/home' => 'root#home'
+  get '/about' => 'root#about'
+  get '/profile' => 'root#profile'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

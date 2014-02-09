@@ -4,15 +4,15 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def all
     #raise request.env["omniauth.auth"].to_yaml
     # find or create user
-    user = User.from_omniauth(request.env["omniauth.auth"])
-    debugger
+    user, identity = User.from_omniauth(request.env["omniauth.auth"])
     if user.persisted?
       flash[:notice] = "Signed in!"
-      sign_in_and_redirect user
+      sign_in_and_redirect user # TODO user is not in session...?
     else
-      @user = user
       session["devise.user_attributes"] = user.attributes
-      redirect_to new_user_registration_url, notice: "Please finish creating your account"
+      session["identity_attributes"] = identity.attributes
+      flash[:success] = "Please finish creating your account"
+      redirect_to new_user_registration_url
     end
   end
   alias_method :soundcloud, :all

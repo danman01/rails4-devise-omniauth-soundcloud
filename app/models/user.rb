@@ -27,16 +27,28 @@ class User < ActiveRecord::Base
   # set up roles for this class. Use like user.has_role?("admin"), or add a role with user.add_role!("admin")
   easy_roles :roles
 
-  # Called from the omniauth callback controller
+  # Called from the omniauth callback controller. Note: some of this is specific to Soundcloud, like profile_url, info_hash...
   #
-  # Returns the existing or newly created user
+  # Returns the existing or newly created user along with the identity found or built
   def self.from_omniauth(auth)
     provider =  auth.provider
     uid = auth.uid.to_s
-    joins(:identities).where(identities: {provider: provider, uid: uid}).first_or_create do |user|
-      user.identities.build(provider: provider, uid: uid, info_hash:auth)
+    user_to_return = select('*').joins(:identities).where(identities: {provider: provider, uid: uid}).first
+    debugger
+    if user_to_return
+      # some way to grab this from the first query?
+      identity = user_to_return.identities.where(provider: provider, uid: uid).first
+    else user_to_return
+      user = User.new
+      # build the associated identity for this provider, first converting the auth info to an encoded json object
+      auth_hash = ActiveSupport::JSON.encode(auth.to_hash) rescue auth.to_s
+      identity = user.identities.build(provider: provider, uid: uid, info_hash:auth_hash, profile_url: auth.extra.raw_info.uri)
+      # update user attributes based on what we grab
       user = user.update_user_from_auth(auth)
+      user.save # attempt to persist user
+      user_to_return = user
     end
+    return [user_to_return, identity]
   end
 
   # Override Devise method to allow session to be carried over to new user registration form
@@ -45,7 +57,8 @@ class User < ActiveRecord::Base
       # we already trust this isn't mass assignment attack, so use without protection
       new(session["devise.user_attributes"], without_protection: true) do |user|
         user.attributes = params
-        # will return the user to the form with validation errors
+        user.identities.build(session["identity_attributes"]) if session["identity_attributes"]
+        # sets user.errors, which will be present when we return the user to the form with validation errors
         user.valid?
       end
     else

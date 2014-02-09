@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  receive_broadcast: false
+  receive_email: false
+  receive_user_messages: false
+  visible: false
+
+two:
+  receive_broadcast: false
+  receive_email: false
+  receive_user_messages: false
+  visible: false

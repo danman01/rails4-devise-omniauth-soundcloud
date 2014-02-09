@@ -5,6 +5,12 @@
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+  <%= display_meta_tags :site => 'Music Town',
+    :title =>" Music Town - Find your match!",
+    :keywords => "Musicians, bands, matching",
+    :viewport =>"width=device-width, target-densitydpi=160dpi, initial-scale=1.0"
+  %>
+  
 </head>
 <body>
   <p class="notice"><%= notice %></p>
@@ -15,6 +21,17 @@
         <span><%= link_to "Sign out", destroy_user_session_path, method: :delete %></span>
       <% else %>
         <span><%= link_to "Sign in", user_session_path %></span>
+      <% end %>
+    </div>
+    <div id="user_nav">
+      <% if user_signed_in? %>
+        Logged in as <strong><%= current_user.email %></strong>.
+        <%= link_to 'Edit profile', edit_user_registration_path %> |
+        <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+      <% else %>
+        <%= link_to "Sign up", new_user_registration_path %> |
+        <%= link_to "Login", new_user_session_path %> |
+        <%= link_to "Sign in with SoundCloud", user_omniauth_authorize_path(:soundcloud) %>
       <% end %>
     </div>
   </header>

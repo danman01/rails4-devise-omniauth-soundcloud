@@ -21,7 +21,12 @@ gem 'coffee-rails', '~> 4.0.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
+# authentication using Devise (email / password) and omniauth (oauth)
 gem "devise"
+gem "omniauth-soundcloud"
+
+# set env variables within config/application.yml
+gem "figaro"
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
@@ -29,16 +34,67 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
+# User roles. ex: User.first.add_role!("admin")
+gem "easy_roles"
+
+# manage meta tags
+gem "meta-tags", :require => "meta_tags"
+
+# error notification. TODO - setup https://github.com/smartinez87/exception_notification
+gem 'exception_notification', git: "git://github.com/smartinez87/exception_notification.git"
+
+# nice rails urls for seo and readability
+gem "friendly_id", '~> 5.0.0'
+
+# use foreman start to startup multiple processes at once (i.e. rails and delayed job queue)
+gem "foreman"
+
+# admin panel, available at /admin
+gem "rails_admin"
+
+# cron scheduling for the server. See config/schedule
+gem 'whenever', :require =>false
+
+# tool to party
+gem 'httparty'
+
+# app permissions. set in models/ability.rb
+gem "cancan", git: "https://github.com/nukturnal/cancan.git"
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
 
-group :test do
-  gem 'rspec-rails'
-  gem 'capybara'
-  gem 'factory_girl'
+group :development do
+  # preload rails app to speed things up
+  gem "spring"
+  gem "spring-commands-rspec"
+  # better formatting of errors
+  gem "better_errors"
+  # do not output so much about assets to console
+  gem "quiet_assets"
+  # debugging tool: https://github.com/banister/binding_of_caller
+  gem "binding_of_caller"
 end
+
+group :development, :test do
+  gem 'rspec-rails'
+  gem "faker"
+  gem "factory_girl_rails", "~> 4.0"
+  gem 'debugger'
+end
+
+group :test do
+  gem 'capybara'
+  gem "launchy"
+  gem "database_cleaner"
+end
+
+# Rails view utilities
+
+# use country-select with priority countries like: country_select("user", "country_name", [ "United Kingdom", "France", "Germany" ])
+gem 'country-select'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
@@ -49,5 +105,3 @@ end
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]

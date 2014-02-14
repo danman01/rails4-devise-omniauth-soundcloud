@@ -33,8 +33,8 @@ class User < ActiveRecord::Base
   def self.from_omniauth(auth)
     provider =  auth.provider
     uid = auth.uid.to_s
+    # Use select("*") to get around the readonly: true default setting when using join
     user_to_return = select('*').joins(:identities).where(identities: {provider: provider, uid: uid}).first
-    debugger
     if user_to_return
       # some way to grab this from the first query?
       identity = user_to_return.identities.where(provider: provider, uid: uid).first

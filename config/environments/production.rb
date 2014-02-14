@@ -1,4 +1,4 @@
-Musictown::Application.configure do
+MyApp::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -51,7 +51,7 @@ Musictown::Application.configure do
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
   
-  config.action_mailer.default_url_options = { :host => 'musictown.co' }
+  config.action_mailer.default_url_options = { :host => 'myapp.co' }
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store

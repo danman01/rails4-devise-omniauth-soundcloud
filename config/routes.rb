@@ -1,4 +1,4 @@
-Musictown::Application.routes.draw do
+MyApp::Application.routes.draw do
   # mounting a railse engine, which is essentially a separate rails app:
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   # devise routes for user authentication, session and registration management
@@ -8,7 +8,7 @@ Musictown::Application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  # MusicTown first page seen is the following:
+  # root of your app, historically index.html:
   root 'root#index'
 
   # root named routes:

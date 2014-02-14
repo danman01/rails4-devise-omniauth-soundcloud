@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Musictown::Application.config.secret_key_base = '5d5cd83407b921332c9cd7e9014ce3684d2e61411ecebb759dd072944e155d1f7c8ae071260f4ef759c59d99b3ad950e116ee4bfdd383b91512e1d051be40f50'
+MyApp::Application.config.secret_key_base = '4d5cd83407b921332c9cd7e9014ce3684d2e61411ecebb759dd072944e155d1f7c8ae071260f4ef759c59d99b3ad950e116ee4bfdd383b91512e1d051be40f50'

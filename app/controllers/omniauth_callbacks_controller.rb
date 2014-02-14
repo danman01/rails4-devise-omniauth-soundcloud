@@ -7,8 +7,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user, identity = User.from_omniauth(request.env["omniauth.auth"])
     if @user.persisted?
       flash[:notice] = "Signed in!"
-      binding.pry
-      sign_in_and_redirect @user, :event=> :authentication # TODO user is not in session...?
+      sign_in_and_redirect @user, :event=> :authentication 
     else
       session["devise.user_attributes"] = @user.attributes
       session["identity_attributes"] = identity.attributes

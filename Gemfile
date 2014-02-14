@@ -82,6 +82,8 @@ group :development, :test do
   gem 'rspec-rails'
   gem "faker"
   gem "factory_girl_rails", "~> 4.0"
+  gem "pry"
+  gem 'pry-byebug'
 end
 
 group :test do

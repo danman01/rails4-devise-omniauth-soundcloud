@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  has_many :identities
+  has_many :identities, :dependent=>:destroy
   has_one :user_setting
 
   # Include default devise modules. Others available are:
@@ -34,11 +34,12 @@ class User < ActiveRecord::Base
     provider =  auth.provider
     uid = auth.uid.to_s
     # Use select("*") to get around the readonly: true default setting when using join
-    user_to_return = select('*').joins(:identities).where(identities: {provider: provider, uid: uid}).first
-    if user_to_return
-      # some way to grab this from the first query?
-      identity = user_to_return.identities.where(provider: provider, uid: uid).first
-    else user_to_return
+    #user_to_return = select('*').joins(:identities).where(identities: {provider: provider, uid: uid}).first
+    identity = Identity.where(provider: provider, uid: uid).first rescue nil
+    if identity
+      user_to_return = identity.user
+    else
+      # no identity exists...create new user for this identity
       user = User.new
       # build the associated identity for this provider, first converting the auth info to an encoded json object
       auth_hash = ActiveSupport::JSON.encode(auth.to_hash) rescue auth.to_s

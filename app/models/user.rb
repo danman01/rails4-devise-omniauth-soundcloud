@@ -42,7 +42,8 @@ class User < ActiveRecord::Base
       if identity
         user_to_return = identity.user
       else
-        user_to_return = create_user_from_omniauth
+        user_to_return = create_user_from_omniauth(auth)
+        identity = user_to_return.identities.first
       end
       return [user_to_return, identity]
     end

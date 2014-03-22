@@ -1,28 +1,16 @@
-== README
+1. Copy the database sample to databaseyml
+2. Fill in your info in database.yml
+3. Run rake db:setup (does create and schema:load)
+4. Register your app with soundcloud 
+5. Copy application.yml.sample to application.yml with your soundcloud
+   keys
+6. You may want to setup something in /etc/hosts to look like the url
+   you added to your soundcloud app (local.myapp.com:3000 could point to
+127.0.0.1)
+7. Profit!
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+-----------------
+When a user auth's with soundcloud, the app will create a user with a
+soundcloud identity, but will need an email address to be a valid
+record.  You can mess around with validations on the user class if you
+don't care about the email, as it's a little awkward.  
